@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg
+alembic
+pydantic
+pydantic-settings
+python-multipart
+PyJWT
+passlib
+bcrypt
+Pillow
+opencv-python

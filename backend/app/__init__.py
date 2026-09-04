@@ -1,0 +1,1 @@
+# EchoCrew backend app package
