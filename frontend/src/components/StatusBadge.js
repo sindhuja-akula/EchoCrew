@@ -1,6 +1,5 @@
-export function renderStatusBadge(status, label) {
-  const badge = document.createElement('div');
-  badge.className = `badge badge-${status}`;
-  badge.textContent = label;
-  return badge;
+import { renderStatusBadge } from '../utils/formatters.js';
+
+export function StatusBadge(status, type = 'report') {
+  return renderStatusBadge(status, type);
 }

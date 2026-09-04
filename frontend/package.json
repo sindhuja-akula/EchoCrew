@@ -1,0 +1,13 @@
+{
+  "name": "cleanloop-frontend",
+  "version": "1.0.0",
+  "description": "EchoCrew / CleanLoop Urban Waste Recovery Platform Frontend",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
