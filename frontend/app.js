@@ -11,6 +11,9 @@ import { CompensationView } from './src/components/CompensationView.js';
 import { CollectionsView } from './src/components/CollectionsView.js';
 import { AuditView } from './src/components/AuditView.js';
 import { WorkerView } from './src/components/WorkerView.js';
+import { IntelligentVerificationView } from './src/components/IntelligentVerificationView.js';
+import { WeighmentView } from './src/components/WeighmentView.js';
+import { DisposalView } from './src/components/DisposalView.js';
 
 class Application {
   constructor() {
@@ -89,6 +92,15 @@ class Application {
     } else if (hash === '#collections') {
       this.activeComponent = new CollectionsView(pageContainer);
       this.activeComponent.loadData();
+    } else if (hash === '#ai-verification') {
+      this.activeComponent = new IntelligentVerificationView(pageContainer);
+      this.activeComponent.render();
+    } else if (hash === '#weighments') {
+      this.activeComponent = new WeighmentView(pageContainer);
+      this.activeComponent.render();
+    } else if (hash === '#disposal') {
+      this.activeComponent = new DisposalView(pageContainer);
+      this.activeComponent.render();
     } else if (hash === '#audit') {
       this.activeComponent = new AuditView(pageContainer);
       this.activeComponent.loadData();

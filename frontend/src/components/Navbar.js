@@ -16,8 +16,11 @@ export function renderNavbar(activeHash, currentRole, healthStatus) {
       { hash: '#work-orders', label: '📦 Work Orders' },
       { hash: '#assignments', label: '👷 Worker Assignments' },
       { hash: '#verifications', label: '✅ Verifications' },
+      { hash: '#ai-verification', label: '🤖 AI Verification' },
       { hash: '#compensations', label: '💰 Compensations' },
       { hash: '#collections', label: '🚛 Collections' },
+      { hash: '#weighments', label: '⚖️ Weighments' },
+      { hash: '#disposal', label: '♻️ Disposal' },
       { hash: '#audit', label: '📜 Audit Log' },
     ];
   } else if (currentRole === 'worker') {

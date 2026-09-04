@@ -10,7 +10,9 @@ from app.api.v1.endpoints import (
     verification,
     compensation,
     collections,
-    audit
+    audit,
+    weighments,
+    disposal
 )
 
 api_v1_router = APIRouter()
@@ -26,3 +28,5 @@ api_v1_router.include_router(verification.router, tags=["Verification"])
 api_v1_router.include_router(compensation.router, tags=["Compensation"])
 api_v1_router.include_router(collections.router, tags=["Collections"])
 api_v1_router.include_router(audit.router, tags=["Audit"])
+api_v1_router.include_router(weighments.router, prefix="/weighments", tags=["Weighments"])
+api_v1_router.include_router(disposal.router, prefix="/disposal", tags=["Disposal"])

@@ -14,6 +14,9 @@ from app.schemas.evidence import EvidenceCreate, EvidenceResponse
 from app.schemas.verification import VerificationCreate, VerificationResponse
 from app.schemas.compensation import CompensationResponse, CompensationStatusUpdate
 from app.schemas.collection import CollectionBatchCreate, CollectionBatchStatusUpdate, CollectionBatchResponse
+from app.schemas.intelligent_verification import IntelligentVerificationRequest, IntelligentVerificationResponse
+from app.schemas.transfer_weighment import WeighmentCreate, WeighmentResponse
+from app.schemas.disposal import DisposalRecordCreate, DisposalRecordResponse, DiversionAnalyticsResponse
 from app.schemas.audit import AuditLogResponse
 
 __all__ = [
@@ -45,5 +48,12 @@ __all__ = [
     "CollectionBatchCreate",
     "CollectionBatchStatusUpdate",
     "CollectionBatchResponse",
+    "IntelligentVerificationRequest",
+    "IntelligentVerificationResponse",
+    "WeighmentCreate",
+    "WeighmentResponse",
+    "DisposalRecordCreate",
+    "DisposalRecordResponse",
+    "DiversionAnalyticsResponse",
     "AuditLogResponse",
 ]

@@ -8,6 +8,8 @@ from database.models.enums import (
     WorkOrderStatus, WorkUnitStatus, AssignmentStatus,
     EvidenceType, VerificationStatus, VerificationMethod,
     CompensationStatus, CollectionBatchStatus, VehicleStatus,
+    # Phase 3 enums
+    FacilityType,
     # Audit
     AuditAction,
 )
@@ -26,6 +28,10 @@ from database.models.verification import Verification
 from database.models.compensation import Compensation
 from database.models.collection_batch import CollectionBatch
 from database.models.audit_log import AuditLog
+
+# Phase 3 — Traceability & Intelligence
+from database.models.transfer_weighment import TransferWeighment
+from database.models.disposal_record import DisposalRecord
 
 __all__ = [
     # Base
@@ -48,6 +54,8 @@ __all__ = [
     "CompensationStatus",
     "CollectionBatchStatus",
     "VehicleStatus",
+    # Phase 3 Enums
+    "FacilityType",
     # Phase 1 Models
     "User",
     "GarbageReport",
@@ -65,4 +73,7 @@ __all__ = [
     "CollectionBatch",
     "AuditLog",
     "AuditAction",
+    # Phase 3 Models
+    "TransferWeighment",
+    "DisposalRecord",
 ]

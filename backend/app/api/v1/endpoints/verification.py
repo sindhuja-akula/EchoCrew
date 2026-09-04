@@ -5,7 +5,21 @@ from app.core.database import get_db
 from app.schemas.verification import VerificationCreate, VerificationResponse
 from app.services.verification_service import verification_service
 
+from app.schemas.intelligent_verification import IntelligentVerificationRequest, IntelligentVerificationResponse
+from app.services import intelligent_verification_service
+
 router = APIRouter()
+
+@router.post("/verifications/analyze", response_model=IntelligentVerificationResponse)
+def analyze_verification(
+    request: IntelligentVerificationRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    AI/Automated evaluation of location and time correspondence.
+    """
+    # Assuming system/default actor if no auth provided in this route for now
+    return intelligent_verification_service.evaluate_correspondence(db=db, request=request, user_id=1)
 
 @router.post("/verifications", response_model=VerificationResponse, status_code=status.HTTP_201_CREATED)
 def submit_verification(verification_in: VerificationCreate, db: Session = Depends(get_db)):

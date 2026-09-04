@@ -101,6 +101,14 @@ class VehicleStatus(str, enum.Enum):
     MAINTENANCE = "maintenance"
     OFFLINE = "offline"
 
+# --- Phase 3 Extensions Enums ---
+
+class FacilityType(str, enum.Enum):
+    RECYCLING_PLANT = "recycling_plant"
+    COMPOSTING_FACILITY = "composting_facility"
+    WASTE_TO_ENERGY = "waste_to_energy"
+    SANITARY_LANDFILL = "sanitary_landfill"
+
 class AuditAction(str, enum.Enum):
     REPORT_CREATED = "report_created"
     WORKER_CREATED = "worker_created"
@@ -116,3 +124,7 @@ class AuditAction(str, enum.Enum):
     COLLECTION_BATCH_CREATED = "collection_batch_created"
     VEHICLE_CREATED = "vehicle_created"
     ASSIGNMENT_CANCELLED = "assignment_cancelled"
+    INTELLIGENT_VERIFICATION_EVALUATED = "intelligent_verification_evaluated"
+    WEIGHMENT_RECORDED = "weighment_recorded"
+    WASTE_SEGREGATED = "waste_segregated"
+    DISPOSAL_RECORDED = "disposal_recorded"
