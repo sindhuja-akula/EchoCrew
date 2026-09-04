@@ -10,11 +10,15 @@ services:
     env_file:
       - .env
 
+    environment:
+      - PYTHONPATH=/app:/app/backend
+
     ports:
       - "8000:8000"
 
     volumes:
       - ./backend:/app/backend
+      - ./database:/app/database
       - ./storage:/app/storage
 
     depends_on:

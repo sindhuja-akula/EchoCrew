@@ -44,7 +44,7 @@ def upgrade() -> None:
         sa.Column('description', sa.Text(), nullable=True),
         sa.Column('latitude', sa.Float(), nullable=False),
         sa.Column('longitude', sa.Float(), nullable=False),
-        sa.Column('location', Geometry(geometry_type='POINT', srid=4326, from_text='ST_GeomFromEWKT', name='geometry'), nullable=False),
+        sa.Column('location', Geometry(geometry_type='POINT', srid=4326, from_text='ST_GeomFromEWKT', name='geometry', spatial_index=False), nullable=False),
         sa.Column('category', sa.Enum('wet', 'dry', 'electronic', 'clothing', 'hazardous', 'mixed', 'other', name='waste_category'), nullable=False),
         sa.Column('volume_tier', sa.Enum('minor', 'moderate', 'bulk', name='volume_tier'), nullable=False),
         sa.Column('status', sa.Enum('reported', 'under_review', 'approved', 'assigned', 'in_progress', 'cleaned', 'verified', name='report_status'), nullable=False),

@@ -29,3 +29,74 @@ class ReportStatus(str, enum.Enum):
     IN_PROGRESS = "in_progress"
     CLEANED = "cleaned"
     VERIFIED = "verified"
+
+# --- Phase 2 Extensions Enums ---
+
+class WorkerStatus(str, enum.Enum):
+    AVAILABLE = "available"
+    ASSIGNED = "assigned"
+    OFF_DUTY = "off_duty"
+    SUSPENDED = "suspended"
+
+class WorkerVerificationState(str, enum.Enum):
+    UNVERIFIED = "unverified"
+    PENDING_VERIFICATION = "pending_verification"
+    VERIFIED = "verified"
+    REJECTED = "rejected"
+
+class WorkOrderStatus(str, enum.Enum):
+    OPEN = "open"
+    ASSIGNED = "assigned"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    CANCELLED = "cancelled"
+
+class WorkUnitStatus(str, enum.Enum):
+    PENDING = "pending"
+    ASSIGNED = "assigned"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    CANCELLED = "cancelled"
+
+class AssignmentStatus(str, enum.Enum):
+    PENDING = "pending"
+    ASSIGNED = "assigned"
+    ACCEPTED = "accepted"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    CANCELLED = "cancelled"
+
+class EvidenceType(str, enum.Enum):
+    BEFORE = "before"
+    PROGRESS = "progress"
+    AFTER = "after"
+
+class VerificationStatus(str, enum.Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    REQUIRES_REVIEW = "requires_review"
+
+class VerificationMethod(str, enum.Enum):
+    MANUAL = "manual"
+    AI_ASSISTED = "ai_assisted"
+    SUPERVISOR = "supervisor"
+
+class CompensationStatus(str, enum.Enum):
+    PENDING = "pending"
+    ELIGIBLE = "eligible"
+    PROCESSING = "processing"
+    PAID = "paid"
+    REJECTED = "rejected"
+
+class CollectionBatchStatus(str, enum.Enum):
+    COLLECTING = "collecting"
+    SEALED = "sealed"
+    IN_TRANSIT = "in_transit"
+    DELIVERED = "delivered"
+
+class VehicleStatus(str, enum.Enum):
+    AVAILABLE = "available"
+    DEPLOYED = "deployed"
+    MAINTENANCE = "maintenance"
+    OFFLINE = "offline"

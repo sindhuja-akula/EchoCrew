@@ -4,6 +4,7 @@ WORKDIR /app/backend
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app:/app/backend
 
 COPY requirements.txt /tmp/requirements.txt
 
@@ -11,6 +12,7 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r /tmp/requirements.txt
 
 COPY backend /app/backend
+COPY database /app/database
 
 EXPOSE 8000
 

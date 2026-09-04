@@ -11,7 +11,7 @@ class User(Base, TimestampMixin):
     email = Column(String(255), unique=True, nullable=False, index=True)
     hashed_password = Column(String(255), nullable=True)
     role = Column(
-        SQLEnum(UserRole, name="user_role", native_enum=True),
+        SQLEnum(UserRole, name="user_role", native_enum=True, values_callable=lambda obj: [e.value for e in obj]),
         default=UserRole.CITIZEN,
         nullable=False
     )

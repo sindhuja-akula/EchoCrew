@@ -30,17 +30,17 @@ class GarbageReport(Base, TimestampMixin):
     location = Column(Geometry(geometry_type="POINT", srid=4326), nullable=False)
 
     category = Column(
-        SQLEnum(WasteCategory, name="waste_category", native_enum=True),
+        SQLEnum(WasteCategory, name="waste_category", native_enum=True, values_callable=lambda obj: [e.value for e in obj]),
         default=WasteCategory.MIXED,
         nullable=False
     )
     volume_tier = Column(
-        SQLEnum(VolumeTier, name="volume_tier", native_enum=True),
+        SQLEnum(VolumeTier, name="volume_tier", native_enum=True, values_callable=lambda obj: [e.value for e in obj]),
         default=VolumeTier.MODERATE,
         nullable=False
     )
     status = Column(
-        SQLEnum(ReportStatus, name="report_status", native_enum=True),
+        SQLEnum(ReportStatus, name="report_status", native_enum=True, values_callable=lambda obj: [e.value for e in obj]),
         default=ReportStatus.REPORTED,
         nullable=False
     )
