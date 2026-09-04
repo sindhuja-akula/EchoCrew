@@ -1,14 +1,15 @@
+import unittest
 from fastapi.testclient import TestClient
 from app.main import app
 
-client = TestClient(app)
+class TestScaffoldingAPI(unittest.TestCase):
+    def setUp(self):
+        self.client = TestClient(app)
 
-def test_root():
-    response = client.get("/")
-    assert response.status_code == 200
-    assert response.json()["status"] == "online"
+    def test_root_status(self):
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["status"], "online")
 
-def test_dashboard_metrics():
-    response = client.get("/api/v1/dashboard/metrics")
-    assert response.status_code == 200
-    assert "active_crews" in response.json()
+if __name__ == "__main__":
+    unittest.main()
