@@ -1,116 +1,754 @@
-# CleanLoop AI Development Rules 🤖📜
+============================================================
+CLEANLOOP / ECHOCREW
+AI DEVELOPMENT AND DOCUMENTATION RULES
+============================================================
 
-> Mandatory operational rules and governance protocol for any AI coding assistant or developer working on CleanLoop / EchoCrew.
+STATUS:
+MANDATORY
 
----
+This document defines the mandatory workflow that every AI
+coding agent must follow when modifying this repository.
 
-## 1. Core Mandate & Source of Truth
+The AI must treat the repository documentation as the
+persistent source of truth.
 
-1. **Repository-First Knowledge**: The repository itself—specifically `docs/PROJECT_STATE.md`—is the single source of truth for project status, completed work, pending tasks, and architecture.
-2. **Never Rely on Session Memory**: Never assume a feature exists or is verified based on conversational context alone. Inspect authoritative source files first.
-3. **Recovery & Continuity Guarantee**: The codebase must always remain recoverable, runnable, and understandable if:
-   - The AI session ends or hits usage limits.
-   - Development is paused for days or transferred to another developer/AI.
+AI conversation history must NEVER be treated as the only
+source of project state.
 
----
+------------------------------------------------------------
+1. BEFORE STARTING ANY TASK
+------------------------------------------------------------
 
-## 2. Before Making Any Change
+Before making any change:
 
-Before modifying any file:
-- [ ] Inspect existing files and understand current implementations.
-- [ ] Check `docs/PROJECT_STATE.md` for current phase and status.
-- [ ] Check `README.md` if project setup, running, or configuration is affected.
-- [ ] Check relevant architecture specs in `docs/` (`04-database-architecture.md`, `05-backend-architecture.md`, `07-api-contract.md`, etc.).
-- [ ] Distinguish clearly between **Planned**, **Implemented**, **Tested**, **Verified**, and **Pending**.
-- [ ] **Halt & Report**: If a requested change conflicts with an Architectural Decision Record (ADR), STOP immediately and report the conflict before modifying files.
+1. Read:
+   - README.md
+   - docs/PROJECT_STATE.md
+   - the relevant architecture/documentation files
 
----
+2. Inspect the existing implementation relevant to the task.
 
-## 3. After Every Change
+3. Determine:
+   - current project phase
+   - current implementation status
+   - existing dependencies
+   - existing architecture
+   - existing related files
+   - known issues
 
-Immediately after executing a meaningful change:
-1. Update `docs/PROJECT_STATE.md`:
-   - `Current Phase`
-   - `Completed`
-   - `Newly Changed`
-   - `Verification` (Specify exact test method or mark `NOT VERIFIED` with reasons)
-   - `Current Status` (`NOT STARTED`, `IN PROGRESS`, `IMPLEMENTED`, `VERIFIED`, `BLOCKED`, `NEEDS REVIEW`)
-   - `Known Issues`
-   - `Next Step` (ONLY the immediate next logical step)
-2. Add a structured entry to `docs/PROJECT_STATE.md` under `## 📜 File Change Log`:
-   ```markdown
-   Date: YYYY-MM-DD
-   Phase: <Phase Name>
-   Change: <Brief description>
-   Files Modified:
-   - path/to/file1
-   - path/to/file2
-   Reason: <Technical justification>
-   Verification: <Exact verification output>
-   Status: <Status>
-   ```
+4. Do not assume that planned functionality is implemented.
 
----
+5. Clearly distinguish between:
+   - PLANNED
+   - IN PROGRESS
+   - IMPLEMENTED
+   - VERIFIED
+   - BLOCKED
+   - DEPRECATED
 
-## 4. Specific Domain Rules
+6. Do not overwrite existing implementation blindly.
 
-### A. Docker Change Rule
-Whenever modifying `docker-compose.yml`, `Dockerfile`, `.dockerignore`, or container environment settings:
-- Validate file syntax.
-- Build affected container image(s).
-- Start services where practical (`docker compose up`).
-- Inspect container health status and logs.
-- Record verification outcome in `docs/PROJECT_STATE.md`.
+7. Do not introduce a new architecture merely because it is
+   easier to implement.
 
-### B. Database Change Rule
-Whenever modifying database structures, schemas, or models:
-- Update database documentation (`docs/04-database-architecture.md`).
-- Create/update appropriate Alembic migrations under `backend/alembic/versions/`.
-- Never alter production-style schemas manually without a migration.
-- Test and verify resulting schema.
-- Record tables, columns, indexes, and constraints in `docs/PROJECT_STATE.md`.
+------------------------------------------------------------
+2. SCOPE CONTROL
+------------------------------------------------------------
 
-### C. API Change Rule
-Whenever adding, modifying, or removing API routes:
-- Update API contract documentation (`docs/07-api-contract.md`).
-- Update Pydantic request/response schemas.
-- Write/update corresponding unit/integration tests in `backend/tests/`.
-- Record route changes in `docs/PROJECT_STATE.md`.
+Only implement the task currently requested.
 
-### D. Requirements & Dependencies Rule
-Whenever adding new Python or system dependencies:
-- Verify genuine necessity (avoid unnecessary bloat).
-- Add runtime dependencies to `requirements.txt`.
-- Add dev/test dependencies to `requirements-dev.txt`.
-- Record justification in `docs/PROJECT_STATE.md`.
-- Rebuild Docker backend container to verify build.
+Do not independently introduce unrelated:
 
----
+- frameworks
+- libraries
+- databases
+- services
+- microservices
+- AI providers
+- infrastructure
+- APIs
+- features
 
-## 5. Security & Secrets Protection
+unless explicitly required by the approved architecture.
 
-- **NEVER Commit Secrets**: `.env`, passwords, private API keys, JWT secrets, cloud credentials, database passwords, or private tokens must NEVER be committed to Git.
-- **Safe Templates Only**: Maintain safe placeholder values in `.env.example`.
-- **Git Auditing**: Ensure `.env` is listed in `.gitignore` and `.dockerignore`.
-- **Immediate Halt**: If a secret is accidentally staged, STOP immediately and purge it before committing.
+If a requested implementation conflicts with the existing
+architecture:
 
----
+STOP.
 
-## 6. Scope Control & No Unauthorized Expansion
+Explain the conflict and ask for approval before changing
+architecture.
 
-- Implement ONLY the explicitly approved phase and scope.
-- Do NOT introduce unapproved technologies (e.g., Redis, Kafka, Celery, Kubernetes, unauthorized AI providers) unless explicitly mandated by an approved ADR.
-- Keep CleanLoop modular, minimal, and maintainable.
+------------------------------------------------------------
+3. AFTER EVERY MEANINGFUL CHANGE
+------------------------------------------------------------
 
----
+After completing every meaningful logical change, the AI MUST
+update the appropriate documentation.
 
-## 7. Task Finalization Checklist
+At minimum:
 
-Before marking any task as complete:
-- [ ] Review changed files via `git status` and `git diff`.
-- [ ] Execute appropriate verification tests.
-- [ ] Update `docs/PROJECT_STATE.md` (and `README.md` / `docs/` if applicable).
-- [ ] Audit for accidental secrets.
-- [ ] Commit with conventional commit messages (`feat:`, `fix:`, `docs:`, `chore:`, `test:`).
-- [ ] Push changes to GitHub repository.
-- [ ] Report: exact changes, verifications performed, known problems, and immediate next step.
+docs/PROJECT_STATE.md
+
+must be updated.
+
+The AI must not finish a task while leaving project state
+outdated.
+
+------------------------------------------------------------
+4. PROJECT_STATE.MD REQUIREMENTS
+------------------------------------------------------------
+
+After each meaningful change, update:
+
+docs/PROJECT_STATE.md
+
+The update must include:
+
+A. Current Phase
+
+B. Current Status
+
+C. Completed Work
+
+D. Newly Implemented/Changed Work
+
+E. Files Created
+
+F. Files Modified
+
+G. Files Deleted, if any
+
+H. Dependencies Added/Removed
+
+I. Configuration Changes
+
+J. Database Changes, if applicable
+
+K. API Changes, if applicable
+
+L. Documentation Changes
+
+M. Verification/Test Results
+
+N. Known Issues
+
+O. Remaining Work
+
+P. Immediate Next Step
+
+Do not write vague statements such as:
+
+"Updated backend."
+
+Instead write specifically what changed.
+
+Example:
+
+"Added POST /api/v1/reports endpoint for citizen garbage
+report creation with latitude, longitude, image metadata,
+and report category validation."
+
+------------------------------------------------------------
+5. CHANGE HISTORY
+------------------------------------------------------------
+
+Maintain a chronological change history in:
+
+docs/PROJECT_STATE.md
+
+Every meaningful milestone must record:
+
+Date
+Phase
+Change
+Files Created
+Files Modified
+Reason
+Verification
+Status
+
+Example:
+
+Date: 2026-09-04
+
+Phase:
+Phase 0 - Development Environment
+
+Change:
+Finalized Docker development environment.
+
+Files Created:
+- docker/backend/Dockerfile
+
+Files Modified:
+- docker-compose.yml
+- requirements.txt
+- .env.example
+- README.md
+
+Reason:
+Standardize the development environment for all team members.
+
+Verification:
+docker compose config
+docker compose build
+docker compose ps
+
+Status:
+VERIFIED
+
+------------------------------------------------------------
+6. DOCUMENTATION FILE SELECTION
+------------------------------------------------------------
+
+Update documentation according to the type of change.
+
+Project state:
+docs/PROJECT_STATE.md
+
+Development setup:
+docs/12-development-setup.md
+
+Docker/deployment:
+docs/11-deployment.md
+
+Database:
+docs/04-database-architecture.md
+
+Backend:
+docs/05-backend-architecture.md
+
+Frontend:
+docs/06-frontend-architecture.md
+
+API:
+docs/07-api-contract.md
+
+AI:
+docs/08-ai-architecture.md
+
+Security:
+docs/09-security.md
+
+Testing:
+docs/10-testing.md
+
+Project overview/workflow:
+corresponding project documentation under docs/
+
+Do not create duplicate documentation when an appropriate
+document already exists.
+
+------------------------------------------------------------
+7. README.MD RULE
+------------------------------------------------------------
+
+README.md is stable project documentation.
+
+Update README.md when a change affects:
+
+- installation
+- setup
+- Docker usage
+- environment configuration
+- project execution
+- major project functionality
+- major architecture
+- developer workflow
+
+Do not unnecessarily modify README.md for every small code
+change.
+
+Detailed implementation history belongs in:
+
+docs/PROJECT_STATE.md
+
+------------------------------------------------------------
+8. DATABASE CHANGE RULE
+------------------------------------------------------------
+
+Whenever database structure changes, update:
+
+docs/04-database-architecture.md
+docs/PROJECT_STATE.md
+
+Record:
+
+- new tables
+- removed tables
+- modified tables
+- columns
+- relationships
+- constraints
+- indexes
+- spatial fields
+- spatial indexes
+- migrations
+
+Use the approved migration system.
+
+Never make an undocumented schema change.
+
+------------------------------------------------------------
+9. API CHANGE RULE
+------------------------------------------------------------
+
+Whenever an API endpoint is:
+
+- created
+- modified
+- deleted
+
+update:
+
+docs/07-api-contract.md
+docs/PROJECT_STATE.md
+
+Also update:
+
+- request schemas
+- response schemas
+- validation
+- tests
+
+Record:
+
+- endpoint
+- HTTP method
+- authentication requirement
+- request structure
+- response structure
+- errors
+- status codes
+
+------------------------------------------------------------
+10. BACKEND CHANGE RULE
+------------------------------------------------------------
+
+Whenever backend architecture or implementation changes:
+
+Update the relevant backend documentation and:
+
+docs/PROJECT_STATE.md
+
+Record important:
+
+- modules
+- services
+- dependencies
+- database interactions
+- authentication
+- authorization
+- background processing
+- external integrations
+
+------------------------------------------------------------
+11. FRONTEND CHANGE RULE
+------------------------------------------------------------
+
+Whenever frontend architecture or major functionality changes:
+
+Update:
+
+docs/06-frontend-architecture.md
+docs/PROJECT_STATE.md
+
+Record:
+
+- pages
+- dashboards
+- components
+- state management
+- API integrations
+- authentication flow
+- important UI workflows
+
+------------------------------------------------------------
+12. AI CHANGE RULE
+------------------------------------------------------------
+
+Whenever AI functionality changes:
+
+Update:
+
+docs/08-ai-architecture.md
+docs/PROJECT_STATE.md
+
+Record:
+
+- AI task
+- input
+- output
+- model/provider
+- fallback behavior
+- confidence handling
+- limitations
+- verification strategy
+
+Never describe an AI capability as production-ready if it
+has only been mocked or prototyped.
+
+------------------------------------------------------------
+13. DOCKER CHANGE RULE
+------------------------------------------------------------
+
+Whenever any Docker-related file changes:
+
+- docker-compose.yml
+- Dockerfile
+- .dockerignore
+- Docker configuration
+- container environment configuration
+
+the AI MUST:
+
+1. Validate Docker configuration.
+
+2. Build affected containers.
+
+3. Start the affected services where possible.
+
+4. Check container status.
+
+5. Inspect relevant logs if required.
+
+6. Record the verification result in:
+
+docs/PROJECT_STATE.md
+
+If Docker was not successfully tested, explicitly write:
+
+NOT VERIFIED
+
+Do not claim Docker is working merely because configuration
+files look correct.
+
+------------------------------------------------------------
+14. REQUIREMENTS.TXT RULE
+------------------------------------------------------------
+
+Whenever a dependency is added or removed:
+
+Update:
+
+requirements.txt
+
+or:
+
+requirements-dev.txt
+
+as appropriate.
+
+Then update:
+
+docs/PROJECT_STATE.md
+
+Record:
+
+- package name
+- version constraint if applicable
+- reason
+- whether runtime or development dependency
+- verification result
+
+Do not add unnecessary dependencies.
+
+------------------------------------------------------------
+15. ENVIRONMENT CONFIGURATION RULE
+------------------------------------------------------------
+
+When environment variables change:
+
+Update:
+
+.env.example
+
+and relevant documentation.
+
+NEVER commit:
+
+.env
+
+NEVER place real secrets in:
+
+.env.example
+
+Use safe placeholders.
+
+Record environment variable changes in:
+
+docs/PROJECT_STATE.md
+
+------------------------------------------------------------
+16. TESTING RULE
+------------------------------------------------------------
+
+After implementing functionality, run the appropriate tests.
+
+Examples:
+
+- unit tests
+- integration tests
+- API tests
+- database tests
+- Docker verification
+- frontend tests
+- manual verification
+
+Only mark:
+
+VERIFIED
+
+when verification was actually performed.
+
+If testing could not be performed:
+
+Status:
+IMPLEMENTED - NOT VERIFIED
+
+Explain why.
+
+Never fabricate test results.
+
+------------------------------------------------------------
+17. FILE CHANGE REVIEW
+------------------------------------------------------------
+
+Before considering a task complete:
+
+Run/check equivalent of:
+
+git status
+
+and:
+
+git diff
+
+Review every changed file.
+
+Ensure:
+
+- no unrelated files changed
+- no secrets were added
+- no accidental deletions occurred
+- no unnecessary dependencies were added
+- documentation reflects the implementation
+- PROJECT_STATE.md is updated
+
+------------------------------------------------------------
+18. GIT RULE
+------------------------------------------------------------
+
+After every meaningful completed milestone:
+
+1. Update documentation.
+2. Verify functionality.
+3. Review changes.
+4. Create a logical Git commit.
+
+Example:
+
+chore: finalize docker development environment
+
+feat: add garbage report model
+
+feat: add spatial report clustering
+
+feat: add report creation API
+
+test: add report verification tests
+
+Do not create meaningless commits for individual lines.
+
+Commit logical milestones.
+
+------------------------------------------------------------
+19. PARTIAL IMPLEMENTATION RULE
+------------------------------------------------------------
+
+If a task cannot be fully completed:
+
+DO NOT mark it complete.
+
+Update:
+
+docs/PROJECT_STATE.md
+
+with:
+
+Status:
+IN PROGRESS
+
+Record:
+
+- what was completed
+- what remains
+- why it remains
+- errors encountered
+- immediate next step
+
+This is mandatory because another developer or AI agent
+must be able to continue from the repository.
+
+------------------------------------------------------------
+20. ERROR HANDLING
+------------------------------------------------------------
+
+If an error occurs:
+
+DO NOT randomly modify multiple files.
+
+Instead:
+
+1. Identify the failing component.
+2. Read the error.
+3. Inspect relevant logs.
+4. Identify the likely root cause.
+5. Make the smallest appropriate change.
+6. Test again.
+7. Document the result.
+
+Record unresolved errors under:
+
+Known Issues
+
+in:
+
+docs/PROJECT_STATE.md
+
+------------------------------------------------------------
+21. ARCHITECTURE CHANGE RULE
+------------------------------------------------------------
+
+Do not change major architecture without explicit approval.
+
+Examples:
+
+- changing database technology
+- adding/removing major infrastructure
+- changing authentication architecture
+- converting monolith to microservices
+- adding message queues
+- changing storage architecture
+- replacing the AI architecture
+
+If such a change appears necessary:
+
+STOP.
+
+Explain:
+
+1. Current architecture
+2. Problem
+3. Proposed change
+4. Benefits
+5. Risks
+6. Files affected
+
+Wait for approval.
+
+------------------------------------------------------------
+22. END-OF-TASK CHECKLIST
+------------------------------------------------------------
+
+Before responding that a task is complete, the AI MUST verify:
+
+[ ] Existing implementation inspected
+[ ] Requested change implemented
+[ ] Relevant tests executed
+[ ] Docker verified if affected
+[ ] Database verified if affected
+[ ] API verified if affected
+[ ] requirements.txt updated if required
+[ ] .env.example updated if required
+[ ] Relevant architecture documentation updated
+[ ] README.md updated if required
+[ ] docs/PROJECT_STATE.md updated
+[ ] Known issues documented
+[ ] Immediate next step documented
+[ ] git diff reviewed
+[ ] No secrets included
+[ ] No unrelated files modified
+
+------------------------------------------------------------
+23. FINAL RESPONSE FORMAT FOR AI AGENT
+------------------------------------------------------------
+
+At the end of every task, report:
+
+1. TASK COMPLETED
+
+2. CHANGES MADE
+   - file
+   - change
+
+3. DOCUMENTATION UPDATED
+   - file
+   - what was documented
+
+4. VERIFICATION
+   - exact tests/commands performed
+   - result
+
+5. CURRENT STATUS
+   - VERIFIED
+   - IMPLEMENTED
+   - IN PROGRESS
+   - BLOCKED
+   - etc.
+
+6. KNOWN ISSUES
+
+7. IMMEDIATE NEXT STEP
+
+Do not simply say:
+
+"Done."
+
+------------------------------------------------------------
+24. PROJECT STATE IS THE SOURCE OF TRUTH
+------------------------------------------------------------
+
+The repository must always be capable of answering:
+
+What has been completed?
+
+What is currently being developed?
+
+What changed recently?
+
+What files were affected?
+
+What was actually tested?
+
+What is not verified?
+
+What problems remain?
+
+What should be done next?
+
+The primary source for this information is:
+
+docs/PROJECT_STATE.md
+
+------------------------------------------------------------
+25. NO CONVERSATION-DEPENDENT STATE
+------------------------------------------------------------
+
+The project must never depend on the AI remembering previous
+conversation messages.
+
+If a new AI session starts tomorrow, next week, or from
+another account, it must be possible to understand the
+current project state by reading the repository.
+
+Therefore:
+
+DOCUMENT THE WORK.
+
+DO NOT RELY ON MEMORY.
+
+============================================================
+END OF MANDATORY AI DEVELOPMENT RULES
+============================================================
