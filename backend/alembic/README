@@ -1,0 +1,5 @@
+Alembic database migrations environment for EchoCrew FastAPI backend.
+
+Usage commands:
+  - Generate revision: alembic revision --autogenerate -m "create users table"
+  - Apply migrations: alembic upgrade head
