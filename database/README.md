@@ -1,6 +1,6 @@
-# EchoCrew Database Module 🗄️
+# CleanLoop Database Module 🗄️
 
-Modular PostgreSQL database setup containing migrations, core schemas (extensions, custom enums, indexes), seed data, and administration scripts.
+CleanLoop Phase 1 Database Foundation using PostgreSQL 16 + PostGIS spatial extensions, SQLAlchemy ORM models, Alembic migrations, custom ENUMs, spatial indexing, seed data scripts, and automated unit test suites.
 
 ---
 
@@ -9,41 +9,61 @@ Modular PostgreSQL database setup containing migrations, core schemas (extension
 ```
 database/
 │
-├── migrations/
-│   └── versions/       # Alembic/SQL database migration versions
+├── migrations/          # Alembic DB migrations
+│   ├── versions/
+│   │   └── 001_phase1_foundation.py
+│   └── README.md
 │
-├── schema/
-│   ├── enums.sql       # Custom PostgreSQL ENUM types
-│   ├── extensions.sql  # Database extension activations (uuid, pg_trgm)
-│   └── indexes.sql     # Database performance B-Tree indexes
+├── models/              # SQLAlchemy ORM Models & Enums
+│   ├── __init__.py
+│   ├── base.py          # Declarative Base & TimestampMixin
+│   ├── user.py          # User entity (Commander, Dispatcher, Citizen, etc.)
+│   ├── garbage_report.py# GarbageReport entity (PostGIS POINT, Lat/Lon, VolumeTier, ReportStatus)
+│   ├── waste.py         # WasteCategory & VolumeTier descriptors
+│   └── enums.py         # UserRole, WasteCategory, VolumeTier, ReportStatus
 │
-├── seeds/
-│   ├── users.sql       # Initial user seed data
-│   ├── crews.sql       # Initial crews seed data
-│   ├── vehicles.sql    # Fleet vehicle seed data
-│   └── demo_data.sql   # Demo logs & incident data
+├── seed/                # Seed Data Generation
+│   ├── __init__.py
+│   └── seed_data.py     # Development seed script (users & near-duplicate reports < 20m)
 │
-├── scripts/
-│   ├── init_db.sql     # Master database initialization script
-│   └── reset_db.sql    # Schema wipe & reset script
+├── scripts/             # Administration Utilities
+│   ├── init_db.py       # Enable PostGIS, create tables, run seed_data
+│   └── reset_db.py      # Schema teardown and re-initialization
 │
-└── README.md           # Database documentation
+├── tests/               # Unit & Spatial Test Suite
+│   ├── __init__.py
+│   ├── test_connection.py # Engine & connection tests
+│   ├── test_models.py     # Model & Enum validation tests
+│   └── test_spatial.py    # Haversine distance & 20m deduplication spatial tests
+│
+└── README.md            # Database documentation
 ```
 
 ---
 
-## 🛠️ Usage & Operations
+## ⚙️ Core Database Entities (Phase 1)
 
-### Initialize Database
-Execute `init_db.sql` via `psql`:
+1. **`User`**:
+   - Primary Key `id` (autoincrement)
+   - Unique `username`, `email`
+   - `role` Enum: `commander`, `dispatcher`, `crew_lead`, `responder`, `citizen`
+   - `created_at`, `updated_at`
+
+2. **`GarbageReport`**:
+   - Primary Key `id` (autoincrement)
+   - Foreign Key `reporter_id` -> `users.id` (Nullable for citizen/anonymous reporting)
+   - `latitude`, `longitude` (Float coordinates)
+   - `location`: PostGIS `Geometry(POINT, srid=4326)` with GIST spatial index
+   - `category` Enum: `wet`, `dry`, `electronic`, `clothing`, `hazardous`, `mixed`, `other`
+   - `volume_tier` Enum: `minor` (< 0.2 m³), `moderate` (0.2-1.0 m³), `bulk` (> 1.0 m³)
+   - `status` Enum: `reported`, `under_review`, `approved`, `assigned`, `in_progress`, `cleaned`, `verified`
+   - `image_url`: S3/MinIO file reference URL
+   - `created_at`, `updated_at`
+
+---
+
+## 🧪 Running Database Tests
 
 ```bash
-psql -U echocrew -d echocrew_db -f database/scripts/init_db.sql
-```
-
-### Reset Database Schema
-Execute `reset_db.sql` to clean the database:
-
-```bash
-psql -U echocrew -d echocrew_db -f database/scripts/reset_db.sql
+python -m unittest discover -s database/tests -p "test_*.py"
 ```
