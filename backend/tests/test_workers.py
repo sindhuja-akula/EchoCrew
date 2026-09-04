@@ -8,7 +8,7 @@ class TestWorkersAPI(unittest.TestCase):
         self.client = TestClient(app)
 
     def test_worker_registration_and_status_flow(self):
-        unique_phone = f"+9198{int(time.time()) % 100000000:08d}"
+        unique_phone = f"+9198{int(time.time() * 1000) % 100000000:08d}"
         payload = {
             "phone": unique_phone,
             "identity_ref": "REF-ID-9999"

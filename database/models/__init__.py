@@ -8,6 +8,8 @@ from database.models.enums import (
     WorkOrderStatus, WorkUnitStatus, AssignmentStatus,
     EvidenceType, VerificationStatus, VerificationMethod,
     CompensationStatus, CollectionBatchStatus, VehicleStatus,
+    # Audit
+    AuditAction,
 )
 from database.models.user import User
 from database.models.garbage_report import GarbageReport
@@ -23,6 +25,7 @@ from database.models.cleaning_evidence import CleaningEvidence
 from database.models.verification import Verification
 from database.models.compensation import Compensation
 from database.models.collection_batch import CollectionBatch
+from database.models.audit_log import AuditLog
 
 __all__ = [
     # Base
@@ -60,4 +63,6 @@ __all__ = [
     "Verification",
     "Compensation",
     "CollectionBatch",
+    "AuditLog",
+    "AuditAction",
 ]

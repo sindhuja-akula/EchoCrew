@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from database.models.enums import WorkOrderStatus
 from app.schemas.work_order import WorkOrderCreate, WorkOrderResponse
-from app.services.dispatch_service import dispatch_service
+from app.services.work_order_service import work_order_service
 
 router = APIRouter()
 
@@ -12,7 +12,7 @@ router = APIRouter()
 def create_work_order(order_in: WorkOrderCreate, db: Session = Depends(get_db)):
     """Dispatches a cleanup work order for an approved report."""
     try:
-        return dispatch_service.create_work_order(db, order_in)
+        return work_order_service.create_work_order(db, order_in)
     except ValueError as ve:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(ve))
 
@@ -24,13 +24,13 @@ def list_work_orders(
     db: Session = Depends(get_db)
 ):
     """Lists dispatched work orders."""
-    _, orders = dispatch_service.list_work_orders(db, status=status, skip=skip, limit=limit)
+    _, orders = work_order_service.list_work_orders(db, status=status, skip=skip, limit=limit)
     return orders
 
 @router.get("/work-orders/{work_order_id}", response_model=WorkOrderResponse)
 def get_work_order(work_order_id: int, db: Session = Depends(get_db)):
     """Retrieves work order details with sub-units."""
-    order = dispatch_service.get_work_order_by_id(db, work_order_id)
+    order = work_order_service.get_work_order_by_id(db, work_order_id)
     if not order:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"WorkOrder with ID {work_order_id} not found.")
     return order

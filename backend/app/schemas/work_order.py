@@ -1,21 +1,8 @@
 from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel, Field
-from database.models.enums import WorkOrderStatus, WorkUnitStatus
-
-class WorkUnitResponse(BaseModel):
-    id: int
-    work_order_id: int
-    unit_code: str
-    sequence_number: int
-    status: WorkUnitStatus
-    latitude: Optional[float] = None
-    longitude: Optional[float] = None
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
+from database.models.enums import WorkOrderStatus
+from app.schemas.work_unit import WorkUnitResponse
 
 class WorkOrderCreate(BaseModel):
     report_id: int = Field(..., description="Approved Garbage Report ID to dispatch")

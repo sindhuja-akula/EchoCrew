@@ -17,6 +17,15 @@ class WorkerService:
             verification_state=WorkerVerificationState.UNVERIFIED
         )
         db.add(worker)
+        db.flush()
+
+        from database.models.enums import AuditAction
+        from app.services.audit_service import audit_service
+        audit_service.log_event(
+            db, AuditAction.WORKER_CREATED, "Worker", worker.id,
+            description=f"Worker {worker.worker_code} registered"
+        )
+
         db.commit()
         db.refresh(worker)
         return worker

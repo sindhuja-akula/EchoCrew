@@ -3,6 +3,9 @@ from typing import Optional
 from pydantic import BaseModel, Field
 from database.models.enums import CompensationStatus
 
+class CompensationStatusUpdate(BaseModel):
+    status: CompensationStatus
+
 class CompensationResponse(BaseModel):
     id: int
     worker_id: int

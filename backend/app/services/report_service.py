@@ -109,6 +109,16 @@ class ReportService:
         )
 
         db.add(report)
+        db.flush()
+
+        from database.models.enums import AuditAction
+        from app.services.audit_service import audit_service
+        audit_service.log_event(
+            db, AuditAction.REPORT_CREATED, "GarbageReport", report.id,
+            actor_id=reporter_id,
+            description=f"Garbage report {report.id} created ({report.category.value if hasattr(report.category, 'value') else report.category})"
+        )
+
         db.commit()
         db.refresh(report)
 

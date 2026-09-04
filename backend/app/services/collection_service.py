@@ -18,6 +18,15 @@ class CollectionService:
             collected_at=now
         )
         db.add(batch)
+        db.flush()
+
+        from database.models.enums import AuditAction
+        from app.services.audit_service import audit_service
+        audit_service.log_event(
+            db, AuditAction.COLLECTION_BATCH_CREATED, "CollectionBatch", batch.id,
+            description=f"Collection batch {batch.batch_code} created (volume: {batch.total_volume_m3}m³)"
+        )
+
         db.commit()
         db.refresh(batch)
         return batch

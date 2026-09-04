@@ -29,6 +29,7 @@ from database.models.cleaning_evidence import CleaningEvidence  # noqa: F401
 from database.models.verification import Verification  # noqa: F401
 from database.models.compensation import Compensation  # noqa: F401
 from database.models.collection_batch import CollectionBatch  # noqa: F401
+from database.models.audit_log import AuditLog  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
