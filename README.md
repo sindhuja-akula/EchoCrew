@@ -131,21 +131,35 @@ EchoCrew/
 
 ---
 
-## Development Setup
+## Development Environment
 
-### 1. Prerequisites
-- Python 3.11+
-- Node.js (v18+)
-- Docker & Docker Compose
+CleanLoop supports two development approaches.
 
-### 2. Environment Configuration
+### Docker Development
+
+Docker is the recommended development environment for the team.
+
+Required:
+
+- Git
+- Docker Desktop
+
+Start the development environment:
+
+```bash
+docker compose up --build
+```
+
+### Local Development
+
+#### 1. Environment Configuration
 Clone the repository and initialize local environment variables:
 
 ```bash
 cp .env.example .env
 ```
 
-### 3. Python Environment & Dependencies
+#### 2. Python Environment & Dependencies
 Initialize Python virtual environment and install development dependencies:
 
 ```bash
