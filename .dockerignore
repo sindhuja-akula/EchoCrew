@@ -1,41 +1,22 @@
-# Virtual Environment
-.venv/
-venv/
-ENV/
-env/
-
-# Python Bytecode & Caches
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.coverage
-htmlcov/
-.mypy_cache/
-.ruff_cache/
-
-# Git & Documentation
-.git/
+.git
 .gitignore
-README.md
-docs/
 
-# Node / Frontend Build Outputs
-node_modules/
-frontend/node_modules/
-frontend/dist/
-frontend/build/
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
 
-# Environment Variables & Local Data
 .env
+
+node_modules
+frontend/node_modules
+frontend/dist
+frontend/build
+
 storage/*
 !storage/.gitkeep
 
-# IDE & OS Files
+*.log
 .DS_Store
-Thumbs.db
-.idea/
-.vscode/
-*.swp
-*.tmp
-*.temp
